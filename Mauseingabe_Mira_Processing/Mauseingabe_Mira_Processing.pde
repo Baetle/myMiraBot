@@ -11,12 +11,12 @@ void setup() {
   noStroke();
   frameRate(10);
   // Open the port that the board is connected to and use the same speed (9600 bps)
-//  port = new Serial(this, 9600);  // Comment this line if it's not the correct port
+  // port = new Serial(this, 9600);  // Comment this line if it's not the correct port
   // If the above does not work uncomment the lines below to choose the correct port
   // List all the available serial ports, preceded by their index number:
-  //printArray(Serial.list());
+  // printArray(Serial.list());
   // Instead of 0 input the index number of the port you are using:
-  //port = new Serial(this, Serial.list()[0], 9600);
+   port = new Serial(this, Serial.list()[1], 9600);
 }
 
 void draw() {
@@ -37,7 +37,7 @@ void draw() {
   fill(204, 102, 0);
 
   rect(mx-2, height-45, 4, 5);               // Draw the position marker
-  int angle = int(map(mx, 50, 149, 0, 180));  // Scale the value to the range 0-180
+  int angle_x = int(map(mx, 50, 149, 0, 180));  // Scale the value to the range 0-180
   
 
 // ----- Second Marker
@@ -55,16 +55,18 @@ void draw() {
   fill(204, 102, 0);
 
   rect(width/2-2, my-2, 5, 4);               // Draw the position marker
-  int angle2 = int(map(my, 20, 119, 0, 180));  // Scale the value to the range 0-180
+  int angle_y = int(map(my, 20, 119, 0, 180));  // Scale the value to the range 0-180
  
  // ---- Print Results
 
- print(angle + " ");                       // Print the current angle (debug)
- // port.write(angle);     // Write the angle to the serial port
-
-
- println(angle2 + " ");                       // Print the current angle (debug)
- // port.write(angle2);     // Write the angle to the serial port
+ // print("X " + angle_x + " ");                       // Print the current angle (debug)
+ // print("Y " + angle_y); // Print the current angle (debug)
+ // print(" SerialPrint: ");
+ // println(angle_x + "X" + angle_y + "Y");
  
+ 
+ String val = port.readString();
+ println(val);
+ port.write(angle_x + "X" + angle_y + "Y" + "\n");                       // Write the angle to the serial port
 
 }
