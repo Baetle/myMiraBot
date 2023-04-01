@@ -4,6 +4,7 @@ import processing.serial.*;
 
 Serial port;                      // Create object from Serial class
 float mx = 0.0;
+float my = 0.0;
 
 void setup() {
   size(200, 200);
@@ -19,9 +20,11 @@ void setup() {
 }
 
 void draw() {
+  // ---- First Marker
   background(0);  // Clear background
   fill(204);      // Set fill color
-  rect(40, height/2-15, 120, 25);       // Draw square
+  
+  rect(40, height - 55, 120, 25);       // Draw square
 
   float dif = mouseX - mx;
   if (abs(dif) > 1.0) {
@@ -30,11 +33,38 @@ void draw() {
   mx = constrain(mx, 50, 149);                // Keeps marker on the screen
   noStroke();
   fill(255);
-  rect(50, (height/2)-5, 100, 5);
+  rect(50, height-45, 100, 5);
   fill(204, 102, 0);
 
-  rect(mx-2, height/2-5, 4, 5);               // Draw the position marker
+  rect(mx-2, height-45, 4, 5);               // Draw the position marker
   int angle = int(map(mx, 50, 149, 0, 180));  // Scale the value to the range 0-180
-  //print(angle + " ");                       // Print the current angle (debug)
- // port.write(angle);                          // Write the angle to the serial port
+  
+
+// ----- Second Marker
+ fill(204);      // Set fill color
+ rect(width/2 - 12, 10, 25, 120);      // Draw second square
+ 
+ float dif2 = mouseY - my;
+  if (abs(dif2) > 1.0) {
+    my += dif2/4.0;
+  }
+  my = constrain(my, 20, 119);                // Keeps marker on the screen
+  noStroke();
+  fill(255);
+  rect(width/2-2, 20, 5, 100);
+  fill(204, 102, 0);
+
+  rect(width/2-2, my-2, 5, 4);               // Draw the position marker
+  int angle2 = int(map(my, 20, 119, 0, 180));  // Scale the value to the range 0-180
+ 
+ // ---- Print Results
+
+ print(angle + " ");                       // Print the current angle (debug)
+ // port.write(angle);     // Write the angle to the serial port
+
+
+ println(angle2 + " ");                       // Print the current angle (debug)
+ // port.write(angle2);     // Write the angle to the serial port
+ 
+
 }
